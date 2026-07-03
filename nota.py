@@ -73,7 +73,10 @@ with aba_naopaga:
     st.subheader("SEGUE AS NOTAS COM STATUS INDEFINIDO:")
     tabelas_pagas = ["nota_itapipoca_indef", "nota_cruz_indef"]
     for tabela in tabelas_pagas:
+        try:
         df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
+       except Exception:
+        df_resultado = pd.DataFrame()
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
             data_minima = df_resultado["DATA"].min().date()
