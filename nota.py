@@ -60,7 +60,7 @@ with aba_paga:
         try:
             df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
         except Exception:
-            df_resultado = pd.DataFrame())
+            df_resultado = pd.DataFrame()
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
             data_minima = df_resultado["DATA"].min().date()
