@@ -48,8 +48,6 @@ if zezin_frete is not None:
             df_cruznpaga.to_sql("nota_cruz_indef", bancozin, if_exists="replace", index=False)
 
 
-st.title("NOTAS")
-arquivo_atualizado = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
 aba_paga, aba_naopaga = st.tabs(["NOTAS - PAGAS", "NOTAS - PENDENTES"])
 with aba_paga:
     st.subheader("SEGUE AS NOTAS PAGAS/BAIXADAS:")
