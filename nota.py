@@ -5,6 +5,7 @@ from openpyxl import load_workbook
 import sqlite3 as sq
 import psycopg2 as ps
 from sqlalchemy import create_engine
+from io import BytesIO
 
 if "DATABASE_URL" in st.secrets:
     url_banco = st.secrets["DATABASE_URL"]
@@ -17,11 +18,12 @@ arquivo_atualizado = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho
 
 
 abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
-excel = load_workbook(arquivo_atualizado)
+conteudo_arq = BytesIO(arquivo_atualizado.read())
+excel = load_workbook(conteudo_arq)
 for nome_base in abas_base:
     if nome_base in excel.sheetnames:
         aba = excel[nome_base]
-        df = pd.read_excel(arquivo_atualizado, sheet_name=nome_base)
+        df = pd.read_excel(conteudo_arq, sheet_name=nome_base)
         linhas_negrito = []
         for linha in range(2, aba.max_row + 1):
             celula_cri = aba.cell(row=linha, column=1)
