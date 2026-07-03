@@ -16,11 +16,11 @@ bancozin = create_engine(url_banco)
 st.title("NOTAS")
 zezin_frete = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
 
-
-abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
-conteudo_arq = BytesIO(zezin_frete.read())
-excel = load_workbook(conteudo_arq)
-for nome_base in abas_base:
+if zezin_frete is not None:
+ abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
+ conteudo_arq = BytesIO(zezin_frete.read())
+ excel = load_workbook(conteudo_arq)
+ for nome_base in abas_base:
     if nome_base in excel.sheetnames:
         aba = excel[nome_base]
         df = pd.read_excel(conteudo_arq, sheet_name=nome_base)
