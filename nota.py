@@ -12,7 +12,11 @@ if "DATABASE_URL" in st.secrets:
 else:
     url_banco = "postgresql://postgres:[YOUR-PASSWORD]@db.xobgkyusmybtnpdffoae.supabase.co:5432/postgres"
 
-bancozin = create_engine(url_banco)
+if url_banco.startswith("postgresql://"):
+    url_banco = url_banco.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+
+bancozin = create_engine(url_banco, pool_pre_ping=True)
 st.title("NOTAS")
 zezin_frete = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
 
