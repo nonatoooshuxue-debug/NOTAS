@@ -3,13 +3,19 @@ import pandas as pd
 import streamlit as st
 from openpyxl import load_workbook
 import sqlite3 as sq
+import psycopg2 as ps
+from sqlalchemy import create_engine
 
+if "DATABASE_URL" in st.secrets:
+    url_banco = st.secrets["DATABASE_URL"]
+else:
+    url_banco = "postgresql://postgres:[YOUR-PASSWORD]@db.xobgkyusmybtnpdffoae.supabase.co:5432/postgres"
 
+bancozin = create_engine(url_banco)
 
 
 base = r"C:\Users\User\Documents\NOTAS - PROMAX\NOTA.xlsx"
 abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
-notas_ = sq.connect("notaas.db")
 excel = load_workbook(base)
 for nome_base in abas_base:
     if nome_base in excel.sheetnames:
@@ -29,14 +35,14 @@ for nome_base in abas_base:
         df_npaga["Revenda"] = nome_base
         if "ITA" in nome_base:
             df_ita = df_paga
-            df_ita.to_sql("nota_itapipoca", notas_, if_exists="replace", index=False)
+            df_ita.to_sql("nota_itapipoca", bancozin, if_exists="replace", index=False)
             df_itanpaga = df_npaga
-            df_itanpaga.to_sql("nota_itapipoca_indef", notas_, if_exists="replace", index=False)
+            df_itanpaga.to_sql("nota_itapipoca_indef", bancozin, if_exists="replace", index=False)
         elif "CRUZ" in nome_base:
             df_cruz = df_paga
-            df_cruz.to_sql("nota_cruz", notas_, if_exists="replace", index=False)
+            df_cruz.to_sql("nota_cruz", bancozin, if_exists="replace", index=False)
             df_cruznpaga = df_npaga
-            df_cruznpaga.to_sql("nota_cruz_indef", notas_, if_exists="replace", index=False)
+            df_cruznpaga.to_sql("nota_cruz_indef", bancozin, if_exists="replace", index=False)
 
 
 st.title("NOTAS")
@@ -46,7 +52,7 @@ with aba_paga:
     st.subheader("SEGUE AS NOTAS PAGAS/BAIXADAS:")
     tabelas_pagas = ["nota_itapipoca", "nota_cruz"]
     for tabela in tabelas_pagas:
-        df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", notas_)
+        df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
             data_minima = df_resultado["DATA"].min().date()
@@ -62,7 +68,7 @@ with aba_naopaga:
     st.subheader("SEGUE AS NOTAS COM STATUS INDEFINIDO:")
     tabelas_pagas = ["nota_itapipoca_indef", "nota_cruz_indef"]
     for tabela in tabelas_pagas:
-        df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", notas_)
+        df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
             data_minima = df_resultado["DATA"].min().date()
