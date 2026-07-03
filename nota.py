@@ -75,7 +75,7 @@ with aba_naopaga:
     for tabela in tabelas_pagas:
         try:
          df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
-       except Exception:
+        except Exception:
          df_resultado = pd.DataFrame()
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
