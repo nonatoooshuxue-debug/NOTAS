@@ -12,15 +12,16 @@ else:
     url_banco = "postgresql://postgres:[YOUR-PASSWORD]@db.xobgkyusmybtnpdffoae.supabase.co:5432/postgres"
 
 bancozin = create_engine(url_banco)
+st.title("NOTAS")
+arquivo_atualizado = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
 
 
-base = r"C:\Users\User\Documents\NOTAS - PROMAX\NOTA.xlsx"
 abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
-excel = load_workbook(base)
+excel = load_workbook(arquivo_atualizado)
 for nome_base in abas_base:
     if nome_base in excel.sheetnames:
         aba = excel[nome_base]
-        df = pd.read_excel(base, sheet_name=nome_base)
+        df = pd.read_excel(arquivo_atualizado, sheet_name=nome_base)
         linhas_negrito = []
         for linha in range(2, aba.max_row + 1):
             celula_cri = aba.cell(row=linha, column=1)
