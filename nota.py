@@ -14,11 +14,11 @@ else:
 
 bancozin = create_engine(url_banco)
 st.title("NOTAS")
-arquivo_atualizado = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
+zezin_frete = st.file_uploader("Arrasta o arquivo devagar ai, irmãozinho", type=["xlsx"])
 
 
 abas_base = ["NOTA - CRUZ", "NOTA - ITA", "NOTA - AM"]
-conteudo_arq = BytesIO(arquivo_atualizado.read())
+conteudo_arq = BytesIO(zezin_frete.read())
 excel = load_workbook(conteudo_arq)
 for nome_base in abas_base:
     if nome_base in excel.sheetnames:
