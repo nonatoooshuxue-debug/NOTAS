@@ -57,7 +57,10 @@ with aba_paga:
     st.subheader("SEGUE AS NOTAS PAGAS/BAIXADAS:")
     tabelas_pagas = ["nota_itapipoca", "nota_cruz"]
     for tabela in tabelas_pagas:
-        df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
+        try:
+            df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
+        except Exception:
+            df_resultado = pd.DataFrame())
         if not df_resultado.empty:
             df_resultado["DATA"] = pd.to_datetime(df_resultado["DATA"])
             data_minima = df_resultado["DATA"].min().date()
