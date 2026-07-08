@@ -50,6 +50,11 @@ if zezin_frete is not None:
             df_cruz.to_sql("nota_cruz", bancozin, if_exists="replace", index=False)
             df_cruznpaga = df_npaga
             df_cruznpaga.to_sql("nota_cruz_indef", bancozin, if_exists="replace", index=False)
+        elif "AM" in nome_base:
+            df_am = df_paga
+            df_am.to_sql("nota_am", bancozin, if_exists="replace", index=False)
+            df_amnpaga = df_npaga
+            df_amnpaga.to_sql("nota_am_indef", bancozin, if_exists="replace", index=False)
 
 
 aba_paga, aba_naopaga = st.tabs(["NOTAS - PAGAS", "NOTAS - PENDENTES"])
