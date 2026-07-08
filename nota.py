@@ -55,7 +55,7 @@ if zezin_frete is not None:
 aba_paga, aba_naopaga = st.tabs(["NOTAS - PAGAS", "NOTAS - PENDENTES"])
 with aba_paga:
     st.subheader("SEGUE AS NOTAS PAGAS/BAIXADAS:")
-    tabelas_pagas = ["nota_itapipoca", "nota_cruz"]
+    tabelas_pagas = ["nota_itapipoca", "nota_cruz", "nota_am"]
     for tabela in tabelas_pagas:
         try:
             df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
@@ -74,7 +74,7 @@ with aba_paga:
 
 with aba_naopaga:
     st.subheader("SEGUE AS NOTAS COM STATUS INDEFINIDO:")
-    tabelas_pagas = ["nota_itapipoca_indef", "nota_cruz_indef"]
+    tabelas_pagas = ["nota_itapipoca_indef", "nota_cruz_indef", "nota_am_indef"]
     for tabela in tabelas_pagas:
         try:
             df_resultado = pd.read_sql(f"SELECT * FROM {tabela}", bancozin)
