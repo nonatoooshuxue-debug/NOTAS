@@ -73,7 +73,7 @@ with aba_paga:
             periodo_min = st.date_input("De", value=data_minima, key=f"min_{tabela}")
             periodo_max = st.date_input("Até", value=data_maxima, key=f"max_{tabela}")
             df_filtrado = df_resultado[df_resultado["DATA"].dt.date.between(periodo_min, periodo_max)]
-            st.dataframe(df_filtrado)
+            st.dataframe(df_filtrado, hide_index=True)
             st.divider()
 
 
@@ -93,7 +93,7 @@ with aba_naopaga:
             periodo_min = st.date_input("De", value=data_minima, key=f"min_{tabela}")
             periodo_max = st.date_input("Até", value=data_maxima, key=f"max_{tabela}")
             df_filtrado = df_resultado[df_resultado["DATA"].dt.date.between(periodo_min, periodo_max)]
-            st.dataframe(df_filtrado)
+            st.dataframe(df_filtrado, hide_index=True)
             st.divider()
 
 
